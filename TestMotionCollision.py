@@ -122,10 +122,10 @@ def main():
         # Check for touching ghost.
         if hero_rect.colliderect(ghost_rect):
             # Respond differently depending on gold status
-            if "gold" in inventory:
-                dialog = "Welcome rich friend!"
+            if "sword" and "staff" and "crown" in inventory:
+                dialog = "No! You have defeated me."
             else:
-                dialog = "Go away loser!"
+                dialog = "Die puny mortal."
             # These say where and for how long the dialog prints on the screen
             dialog_counter = 50
             dialog_position = (100, 100)
