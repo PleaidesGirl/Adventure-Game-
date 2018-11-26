@@ -30,24 +30,24 @@ def main():
     hero_rect.center = (350,250)
 
     # add in another character
-    ghost = pygame.image.load("pacman_ghost.png").convert_alpha()
-    ghost_rect = ghost.get_rect()
-    ghost_rect.center = 100, 200
+    snake = pygame.image.load("snake.png").convert_alpha()
+    snake_rect = ghost.get_rect()
+    snake_rect.center = 100, 200
 
     sword = pygame.image.load("sword.png").convert_alpha()
-    sword_rect = ghost.get_rect()
+    sword_rect = sword.get_rect()
     sword_rect.center = 200, 200
 
-    staff = pygame.image.load("staff.png").convert_alpha()
-    staff_rect = ghost.get_rect()
-    staff_rect.center = 500, 300
+    potion = pygame.image.load("staff.png").convert_alpha()
+    potion_rect = potion.get_rect()
+    potion_rect.center = 500, 300
 
     crown = pygame.image.load("crown.png").convert_alpha()
-    crown_rect = ghost.get_rect()
+    crown_rect = crown.get_rect()
     crown_rect.center = 100, 200
 
     key = pygame.image.load("key.png").convert_alpha()
-    key_rect = ghost.get_rect()
+    key_rect = key.get_rect()
     key_rect.center = 100, 200
 
     # add in a treasure item
@@ -120,9 +120,9 @@ def main():
             rect.move_ip(movement_x, movement_y)
 
         # Check for touching ghost.
-        if hero_rect.colliderect(ghost_rect):
+        if hero_rect.colliderect(snake_rect):
             # Respond differently depending on gold status
-            if "sword" and "staff" and "crown" in inventory:
+            if "sword" and "potion" and "crown" in inventory:
                 dialog = "No! You have defeated me."
             else:
                 dialog = "Die puny mortal."
@@ -137,18 +137,30 @@ def main():
             dialog_counter = 30
             dialog_position = (300, 200)
 
-        if hero_rect.colliderect(sword_rect) and "sword" not in inventory:
+        if sword_rect.colliderect(sword_rect) and "sword" not in inventory:
             inventory["sword"] = True
             dialog = "Sword added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
 
-        if hero_rect.colliderect(staff_rect) and "staff" not in inventory:
-            inventory["staff"] = True
-            dialog = "Staff added to inventory"
+        if potion_rect.colliderect(potion_rect) and "potion" not in inventory:
+            inventory["potion"] = True
+            dialog = "Potion added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-
+            
+        if key_rect.colliderect(key_rect) and "key" not in inventory:
+            inventory["key"] = True
+            dialog = "Key added to inventory"
+            dialog_counter = 30
+            dialog_position = (300, 200)
+            
+        if crown_rect.colliderect(crown_rect) and "crown" not in inventory:
+            inventory["crown"] = True
+            dialog = "Crown added to inventory"
+            dialog_counter = 30
+            dialog_position = (300, 200)
+            
         # Draw the characters
         screen.blit(ghost, ghost_rect)
         pygame.draw.rect(screen, (0,255,0), ghost_rect, 3)
@@ -158,8 +170,8 @@ def main():
             screen.blit(treasure, treasure_rect)
         if "sword" not in inventory:
             screen.blit(sword, sword_rect)
-        if "staff" not in inventory:
-            screen.blit(staff, staff_rect)
+        if "potion" not in inventory:
+            screen.blit(potion, potion_rect)
         if "crown" not in inventory:
             screen.blit(crown, crown_rect)
 
