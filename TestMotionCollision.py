@@ -1,6 +1,7 @@
 # Starter code for an adventure type game.
 # University of Utah, David Johnson, 2017.
 # This code, or code derived from this code, may not be shared without permission.
+# Authors: Ivan Lee and Celine Cavanaugh
 
 import sys, pygame, math
 
