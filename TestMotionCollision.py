@@ -125,7 +125,7 @@ def main():
             if "sword" and "potion" and "crown" in inventory:
                 dialog = "No! You have defeated me."
             else:
-                dialog = "Die puny mortal."
+                dialog = "Die puny mortal. (game end)"
             # These say where and for how long the dialog prints on the screen
             dialog_counter = 50
             dialog_position = (100, 100)
