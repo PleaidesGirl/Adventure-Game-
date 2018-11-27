@@ -84,7 +84,7 @@ def main():
     inventory = {}
 
     # This list should hold all the sprite rectangles that get shifted with a key press.
-    rect_list = [ghost_rect, treasure_rect]
+    rect_list = [snake_rect, treasure_rect, key_rect, crown_rect, sword_rect, potion_rect]
 
     # Loop while the player is still active
     while playing:
@@ -163,8 +163,8 @@ def main():
             dialog_position = (300, 200)
             
         # Draw the characters
-        screen.blit(ghost, ghost_rect)
-        pygame.draw.rect(screen, (0,255,0), ghost_rect, 3)
+        screen.blit(snake, snake_rect)
+        pygame.draw.rect(screen, (0,255,0), snake_rect, 3)
 
         # Only draw the gold if it hasn't been picked up
         if "gold" not in inventory:
