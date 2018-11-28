@@ -5,20 +5,21 @@
 
 import sys, pygame, math
 
+
 # This function loads a series of sprite images stored in a folder with a
 # consistent naming pattern: sprite_# or sprite_##. It returns a list of the images.
 def load_piskell_sprite(sprite_folder_name, number_of_frames):
     frame_counts = []
-    padding = math.ceil(math.log(number_of_frames,10))
+    padding = math.ceil(math.log(number_of_frames, 2))
     for frame in range(number_of_frames):
-        folder_and_file_name = sprite_folder_name + "/sprite_" + str(frame).rjust(padding,'0') +".png"
+        folder_and_file_name = sprite_folder_name + "/sprite_" + str(frame).rjust(padding, '0') + ".png"
         frame_counts.append(pygame.image.load(folder_and_file_name).convert_alpha())
 
     return frame_counts
 
+
 # The main loop handles most of the game
 def main():
-
     # Initialize pygame
     pygame.init()
 
@@ -26,20 +27,20 @@ def main():
     screen = pygame.display.set_mode(screen_size)
 
     # create the hero character
-    hero = load_piskell_sprite("hero",21)
+    hero = load_piskell_sprite("hero", 1)
     hero_rect = hero[0].get_rect()
-    hero_rect.center = (350,250)
+    hero_rect.center = (350, 250)
 
     # add in another character
     snake = pygame.image.load("snake.png").convert_alpha()
-    snake_rect = ghost.get_rect()
+    snake_rect = snake.get_rect()
     snake_rect.center = 100, 200
 
     sword = pygame.image.load("sword.png").convert_alpha()
     sword_rect = sword.get_rect()
     sword_rect.center = 200, 200
 
-    potion = pygame.image.load("staff.png").convert_alpha()
+    potion = pygame.image.load("potion.png").convert_alpha()
     potion_rect = potion.get_rect()
     potion_rect.center = 500, 300
 
@@ -54,7 +55,7 @@ def main():
     # add in a treasure item
     treasure = pygame.image.load("treasurechest.png").convert_alpha()
     treasure_rect = treasure.get_rect()
-    treasure_rect.center = 750,400
+    treasure_rect.center = 750, 400
 
     # The clock helps us manage the frames per second of the animation
     clock = pygame.time.Clock()
@@ -72,13 +73,12 @@ def main():
     # counter, the text will show on the screen for dialog_counter number of frames.
     dialog_counter = 0
     dialog = ''
-    dialog_position = (0,0)
+    dialog_position = (0, 0)
 
     # Load font
-    pygame.font.init() # you have to call this at the start,
-                   # if you want to use this module.
+    pygame.font.init()  # you have to call this at the start,
+    # if you want to use this module.
     myfont = pygame.font.SysFont('Comic Sans MS', 30)
-
 
     # create the inventory and make it empty
     inventory = {}
@@ -89,7 +89,7 @@ def main():
     # Loop while the player is still active
     while playing:
         # start the next frame
-        screen.fill((170,190,190))
+        screen.fill((170, 190, 190))
 
         # Check events by looping over the list of events
         for event in pygame.event.get():
@@ -149,22 +149,22 @@ def main():
             dialog = "Potion added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-            
+
         if key_rect.colliderect(key_rect) and "key" not in inventory:
             inventory["key"] = True
             dialog = "Key added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-            
+
         if crown_rect.colliderect(crown_rect) and "crown" not in inventory:
             inventory["crown"] = True
             dialog = "Crown added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-            
+
         # Draw the characters
         screen.blit(snake, snake_rect)
-        pygame.draw.rect(screen, (0,255,0), snake_rect, 3)
+        pygame.draw.rect(screen, (0, 255, 0), snake_rect, 3)
 
         # Only draw the gold if it hasn't been picked up
         if "gold" not in inventory:
@@ -177,12 +177,12 @@ def main():
             screen.blit(crown, crown_rect)
 
         # Pick the sprite frame to draw
-        hero_sprite = hero[frame_count%len(hero)]
+        hero_sprite = hero[frame_count % len(hero)]
         # Flip the sprite depending on direction
         if not is_facing_left:
             hero_sprite = pygame.transform.flip(hero_sprite, True, False)
         screen.blit(hero_sprite, hero_rect)
-        pygame.draw.rect(screen, (0,255,0), hero_rect, 3)
+        pygame.draw.rect(screen, (0, 255, 0), hero_rect, 3)
 
         # draw any dialog
         if dialog:
@@ -204,6 +204,7 @@ def main():
     # loop is over
     pygame.quit()
     sys.exit()
+
 
 # Start the program
 main()
