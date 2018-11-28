@@ -138,25 +138,25 @@ def main():
             dialog_counter = 30
             dialog_position = (300, 200)
 
-        if sword_rect.colliderect(sword_rect) and "sword" not in inventory:
+        if hero_rect.colliderect(sword_rect) and "sword" not in inventory:
             inventory["sword"] = True
             dialog = "Sword added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
 
-        if potion_rect.colliderect(potion_rect) and "potion" not in inventory:
+        if hero_rect.colliderect(potion_rect) and "potion" not in inventory:
             inventory["potion"] = True
             dialog = "Potion added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
 
-        if key_rect.colliderect(key_rect) and "key" not in inventory:
+        if hero_rect.colliderect(key_rect) and "key" not in inventory:
             inventory["key"] = True
             dialog = "Key added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
 
-        if crown_rect.colliderect(crown_rect) and "crown" not in inventory:
+        if hero_rect.colliderect(crown_rect) and "crown" not in inventory:
             inventory["crown"] = True
             dialog = "Crown added to inventory"
             dialog_counter = 30
