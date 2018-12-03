@@ -35,15 +35,18 @@ def main():
     snake = pygame.image.load("snake.png").convert_alpha()
     snake_rect = snake.get_rect()
     snake_rect.center = 700, 800
-
+    
+    #makes sword image
     sword = pygame.image.load("sword.png").convert_alpha()
     sword_rect = sword.get_rect()
     sword_rect.center = 200, 200
-
+    
+    #makes potion image
     potion = pygame.image.load("potion.png").convert_alpha()
     potion_rect = potion.get_rect()
     potion_rect.center = 500, 300
-
+    
+    #crown
     crown = pygame.image.load("crown.png").convert_alpha()
     crown_rect = crown.get_rect()
     crown_rect.center = 100, 200
@@ -138,13 +141,15 @@ def main():
             dialog = "Gold added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-
+            
+        #puts sword in inventory
         if hero_rect.colliderect(sword_rect) and "sword" not in inventory:
             inventory["sword"] = True
             dialog = "Sword added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-
+        
+        #puts potion in inventory
         if hero_rect.colliderect(potion_rect) and "potion" not in inventory:
             inventory["potion"] = True
             dialog = "Potion added to inventory"
