@@ -17,6 +17,18 @@ def load_piskell_sprite(sprite_folder_name, number_of_frames):
 
     return frame_counts
 
+def load_tiles_and_dict_and_rect():
+    watertile = pygame.image.load("Water_Tile.png").convert_alpha()
+    mosstile = pygame.image.load("Moss_Tile.png").convert_alpha()
+    stonetile = pygame.image.load("Stone_Tile.png").convert_alpha()
+    tiles_rect = stonetile.get_rect()
+
+    tiles = {}
+    tiles[(0,157,255,255)] = watertile
+    tiles[(0,67,7,255)] = mosstile
+    tiles[(129,129,129,255)] = stonetile
+
+    return (tiles, tiles_rect)
 
 # The main loop handles most of the game
 def main():
@@ -25,6 +37,17 @@ def main():
 
     screen_size = height, width = (700, 500)
     screen = pygame.display.set_mode(screen_size)
+
+    #load minimap
+    world = pygame.image.load("Mini_Map.png").convert()
+    world_rect = world.get_rect()
+    (mapx, mapy) = (0, 0)
+
+    #Tile different terrain types
+    tiles, tiles_rect = load_tiles_and_dict_and_rect()
+    #tiles that fit on the screen
+    map_tile_width = (width // tiles_rect.width) + 10
+    map_tile_height = (height // tiles_rect.height) + 1
 
     # create the hero character
     hero = load_piskell_sprite("hero", 1)
@@ -35,18 +58,15 @@ def main():
     snake = pygame.image.load("snake.png").convert_alpha()
     snake_rect = snake.get_rect()
     snake_rect.center = 700, 800
-    
-    #makes sword image
+
     sword = pygame.image.load("sword.png").convert_alpha()
     sword_rect = sword.get_rect()
     sword_rect.center = 200, 200
-    
-    #makes potion image
+
     potion = pygame.image.load("potion.png").convert_alpha()
     potion_rect = potion.get_rect()
     potion_rect.center = 500, 300
-    
-    #crown
+
     crown = pygame.image.load("crown.png").convert_alpha()
     crown_rect = crown.get_rect()
     crown_rect.center = 100, 200
@@ -77,6 +97,10 @@ def main():
     dialog_counter = 0
     dialog = ''
     dialog_position = (0, 0)
+
+    #where the character is
+    mapx = 0
+    mapy = 0
 
     # Load font
     pygame.font.init()  # you have to call this at the start,
@@ -117,11 +141,30 @@ def main():
         if keys[pygame.K_DOWN]:
             movement_y -= 5
 
+        #stop character from moving off the map
+        if mapx < 0:
+            mapx = 0
+        if mapx > world.get_width()-1-(map_tile_width-1):
+            mapx = world.get_width()-1-(map_tile_width-1)
+        if mapy < 0:
+            mapy = 0
+        if mapy > world.get_height()-1-(map_tile_height-1):
+            mapy = world.get_height()-1-(map_tile_height-1)
+
         # Move all the sprites in the scene by movement amount.
         # You can still move the rect of an individual sprite to make
         # it move around the landscape.
         for rect in rect_list:
             rect.move_ip(movement_x, movement_y)
+
+        #drawing the map
+        for y in range(0, map_tile_height):
+            y_index = y + mapy
+            for x in range(0, map_tile_width):
+                x_index = x + mapx
+                pixelColor = world.get_at((x_index, y_index))
+                tiles_rect.topleft = (x * tiles_rect.width, y * tiles_rect.height)
+                screen.blit(tiles[tuple(pixelColor)], tiles_rect)
 
         # Check for touching ghost.
         if hero_rect.colliderect(snake_rect):
@@ -141,15 +184,13 @@ def main():
             dialog = "Gold added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-            
-        #puts sword in inventory
+
         if hero_rect.colliderect(sword_rect) and "sword" not in inventory:
             inventory["sword"] = True
             dialog = "Sword added to inventory"
             dialog_counter = 30
             dialog_position = (300, 200)
-        
-        #puts potion in inventory
+
         if hero_rect.colliderect(potion_rect) and "potion" not in inventory:
             inventory["potion"] = True
             dialog = "Potion added to inventory"
@@ -207,6 +248,9 @@ def main():
 
         # 30 fps
         clock.tick(30)
+
+        #draw the minimap
+        screen.blit(world, world_rect)
 
     # loop is over
     pygame.quit()
