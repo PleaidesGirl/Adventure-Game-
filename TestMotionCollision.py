@@ -141,6 +141,7 @@ def main():
         if keys[pygame.K_DOWN]:
             movement_y -= 5
 
+
         #stop character from moving off the map
         if mapx < 0:
             mapx = 0
